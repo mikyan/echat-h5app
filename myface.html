@@ -63,7 +63,7 @@
 				// 绑定选择菜单
 				var openMenu = document.getElementById("openMenu");
 				openMenu.addEventListener("tap", function() {
-					mui("#sheet-myface").popover("show");
+					mui("#sheet-myface").popover("toggle");
 				});
 				
 				
@@ -74,7 +74,7 @@
 						url: "plugin/v3.1.6/myface-uploader.html",
 						id:"myface-uploader.html",
 						createNew: true});
-					mui("#sheet-myface").popover("show");
+					mui("#sheet-myface").popover("toggle");
 				});
 				 
 				// 绑定保存照片的菜单按钮
