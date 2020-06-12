@@ -42,16 +42,16 @@
 		
 		var muxinArray = [
 			{
-				pageId: "imooc-chatlist.html",
-				pageUrl: "imooc-chatlist.html"
+				pageId: "mikyan-chatlist.html",
+				pageUrl: "mikyan-chatlist.html"
 			},
 			{
-				pageId: "imooc-friend.html",
-				pageUrl: "imooc-friend.html"
+				pageId: "mikyan-friend.html",
+				pageUrl: "mikyan-friend.html"
 			},
 			{
-				pageId: "imooc-me.html",
-				pageUrl: "imooc-me.html"
+				pageId: "mikyan-me.html",
+				pageUrl: "mikyan-me.html"
 			}
 		];
 		
@@ -73,7 +73,7 @@
 			// 获取当前的webview对象
 			var indexWebview = plus.webview.currentWebview()
 			
-			// 向当前的主页webview追加子页的4张webview对象
+			// 向当前的主页webview追加子页的3张webview对象
 			for (var i = 0 ; i < muxinArray.length ; i ++) {
 				var muxinPage = plus.webview.create(muxinArray[i].pageUrl, 
 													muxinArray[i].pageId,
@@ -125,12 +125,12 @@
 		
 		// 预加载
 		function initData() {
-			var imooc_chatlist = plus.webview.getWebviewById("imooc-chatlist.html");
-			mui.fire(imooc_chatlist, "refresh");
-			var imooc_me = plus.webview.getWebviewById("imooc-friend.html");
-			mui.fire(imooc_friend, "refresh");
-			var imooc_me = plus.webview.getWebviewById("imooc-me.html");
-			mui.fire(imooc_me, "refresh");
+			var mikyan_chatlist = plus.webview.getWebviewById("mikyan-chatlist.html");
+			mui.fire(mikyan_chatlist, "refresh");
+			var mikyan_friend = plus.webview.getWebviewById("mikyan-friend.html");
+			mui.fire(mikyan_friend, "refresh");
+			var mikyan_me = plus.webview.getWebviewById("mikyan-me.html");
+			mui.fire(mikyan_me, "refresh");
 		}
 		
 	</script>

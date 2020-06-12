@@ -1,13 +1,13 @@
 {
 	"index.html": {
 		"resources": [
-			"imooc-chatlist.html"
+			"mikyan-chatlist.html"
 		],
 		"refer": [
-			"imooc-me.html",
-			"imooc-discover.html",
-			"imooc-contact.html",
-			"imooc-chatlist.html"
+			"mikyan-me.html",
+			"mikyan-discover.html",
+			"mikyan-contact.html",
+			"mikyan-chatlist.html"
 		]
 	},
 	"login.html": {
@@ -15,7 +15,7 @@
 			"index.html"
 		]
 	},
-	"imooc-me.html": {
+	"mikyan-me.html": {
 		"refer": [
 			"myface.html",
 			"mynickname.html",
@@ -28,7 +28,7 @@
 			"plugin/v3.1.6/myface-uploader.html"
 		]
 	},
-	"imooc-discover.html": {
+	"mikyan-discover.html": {
 		"refer": [
 			"searchFriends.html",
 			"scanme.html"
@@ -39,12 +39,12 @@
 			"searchFriendsResult.html"
 		]
 	},
-	"imooc-contact.html": {
+	"mikyan-contact.html": {
 		"refer": [
 			"chatting.html"
 		]
 	},
-	"imooc-chatlist.html": {
+	"mikyan-chatlist.html": {
 		"refer": [
 			"chatting.html"
 		]

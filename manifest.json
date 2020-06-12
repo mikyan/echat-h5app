@@ -150,7 +150,10 @@
                 }
             },
             "plugins" : {
-                "ad" : {}
+                "ad" : {},
+                "speech" : {
+                    "ifly" : {}
+                }
             }
         }
     },
@@ -217,5 +220,6 @@
                 "fontico/demo_symbol.html"
             ]
         }
-    }
+    },
+    "screenOrientation" : [ "portrait-primary", "portrait-secondary" ]
 }
