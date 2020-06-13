@@ -51,7 +51,7 @@
 				<div class="wrap-login100 p-t-85 p-b-20">
 					<form id="userform">
 						<span class="login100-form-title p-b-70">
-							<h5>登录或注册</h5>
+							<h5>Netty 实战</h5>
 						</span>
 						<span class="login100-form-avatar">
 							<img id="img_login_face" src="css/registLogin/arrow.jpg" alt="风间影月">
@@ -68,7 +68,7 @@
 						</div>
 						<div class="container-login100-form-btn">
 							<button type="submit" id="registOrLogin" class="login100-form-btn">
-								一键登录注册
+								登录/注册1
 							</button>
 						</div>
 					</form>
@@ -82,16 +82,11 @@
 			mui.plusReady(function() {
 				
 				// 判断用户是否注册登录过，如果本地内存有全局的用户对象，此时直接跳转到首页
-				// var userInfo = app.getUserGlobalInfo();
-				// if (userInfo != null) {
-				// 	// 页面跳转
-				// 	mui.openWindow("index.html", "index.html");
-				// }
-				//跳转到奇怪的地方
-				//mui.openWindow("index.html", "index.html");
-				//mui.openWindow("mikyan-friend.html", "mikyan-freiend.html");
-				//mui.openWindow("mikyan-me.html", "mikyan-me.html");
-				//mui.openWindow("chatting.html", "chatting.html");
+				var userInfo = app.getUserGlobalInfo();
+				if (userInfo != null) {
+					// 页面跳转
+					mui.openWindow("index.html", "index.html");
+				}
 				
 				var userform = document.getElementById("userform");
 				var username = document.getElementById("username");
@@ -117,8 +112,6 @@
 						
 						// 获取每台手机的唯一cid
 						var cid = plus.push.getClientInfo().clientid;
-						
-						
 						// 与后端联调
 						mui.ajax(app.serverUrl + "/u/registOrLogin",{
 							data:{
@@ -132,7 +125,7 @@
 							headers:{'Content-Type':'application/json'},	              
 							success:function(data){
 								//服务器返回响应，根据响应结果，分析是否登录成功；
-								console.log(JSON.stringify(data));
+//								console.log(JSON.stringify(data));
 								
 								username.blur();
 								txt_password.blur();
@@ -140,8 +133,12 @@
 								if (data.status == 200) {
 									// 登录或者注册成功之后，保存全局用户对象到本地缓存
 									var userInfoJson = data.data;
-									app.setUserGlobalInfo(userInfoJson);
+									console.log("登录信息");
+									console.log(JSON.stringify(userInfoJson));
 									
+									app.setUserGlobalInfo(userInfoJson);
+									var index = plus.webview.getWebviewById("index.html");
+									mui.fire(index, "refresh");
 									// 页面跳转
 									mui.openWindow("index.html", "index.html");
 								} else {

@@ -23,7 +23,7 @@
 
 		<header class="mui-bar mui-bar-nav title" style="position: fixed;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left title-color"></a>
-			<h1 class="mui-title title-color"><b id="chatting-nickname">详细资料</b></h1>
+			<h1 class="mui-title title-color"><b id="chatting-nickName">详细资料</b></h1>
 		</header>
 		
 		<div class="mui-content">
@@ -68,9 +68,9 @@
 				var lab_friend_nickname = document.getElementById("lab_friend_nickname");
 				var p_friend_username = document.getElementById("p_friend_username");
 				
-				img_friend_face.src = app.imgServerUrl + yourFriend.faceImage;
-				lab_friend_nickname.innerHTML = yourFriend.nickname;
-				p_friend_username.innerHTML = "慕信号：" + yourFriend.username;
+				img_friend_face.src = app.imgServerUrl + yourFriend.faceimage;
+				lab_friend_nickname.innerHTML = yourFriend.nickName;
+				p_friend_username.innerHTML = "易聊号：" + yourFriend.username;
 				
 				// 发送添加好友的请求
 				var btn_add_friend = document.getElementById("btn_add_friend");

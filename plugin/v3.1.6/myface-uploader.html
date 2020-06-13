@@ -34,13 +34,13 @@
 			<a id="cutter" class="mui-pull-right" style="font-size: 15px;color: white;line-height: 40px;">
 				<img src="../../image/upload.png" width="20px"/>
 			</a>
-			<h1 class="mui-title title-color"><b id="chatting-nickname">个人头像</b></h1>
+			<h1 class="mui-title title-color"><b id="chatting-nickName">个人头像</b></h1>
 		</header>
 
 		<!-- Content -->
 		<div id="container">
 			<div class="img-container">
-				<img id="image" src="../../image/bg.png" style="background-color: #000000;">
+				<img id="image" src="" style="background-color: #000000;">
 			</div>
 		</div>
 
@@ -58,9 +58,9 @@
 			mui.plusReady(function() {
 				
 				var user = app.getUserGlobalInfo();
-				var faceImage = user.faceImageBig;
+				var faceimage = user.faceimageBig;
 				// 获取屏幕宽度，设置图片
-				$image.attr('src', app.imgServerUrl + faceImage);
+				$image.attr('src', app.imgServerUrl + faceimage);
 				
 				/** ======================== 从相册选择图片 ======================== **/
 					// 从相册中选择图片
@@ -95,7 +95,7 @@
 							},
 							dataType:'json',//服务器返回json格式数据
 							type:'post',//HTTP请求类型
-							timeout:1000,//超时时间设置为10秒；
+							timeout:10000,//超时时间设置为10秒；
 							headers:{'Content-Type':'application/json'},	              
 							success:function(data){
 								
@@ -107,8 +107,8 @@
 									app.setUserGlobalInfo(userInfo);
 									
 									// 触发另外一个webview的自定义事件，可以使用 mui.fire()
-									var imooc_meWebview = plus.webview.getWebviewById("imooc-me.html");
-									mui.fire(imooc_meWebview, "refresh");
+									var mikyan_meWebview = plus.webview.getWebviewById("mikyan-me.html");
+									mui.fire(mikyan_meWebview, "refresh");
 									
 									// 触发另外一个webview的自定义事件，可以使用 mui.fire()
 									var myfaceWebview = plus.webview.getWebviewById("myface.html");

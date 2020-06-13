@@ -33,7 +33,7 @@
 
 			mui.plusReady(function() {
 				var user = app.getUserGlobalInfo();
-				var mynickname = user.nickname;
+				var mynickname = user.nickName;
 				
 				var txt_nickname = document.getElementById("txt_nickname");
 				txt_nickname.value = mynickname;
@@ -47,16 +47,18 @@
 						app.showToast("昵称长度太短", "error");
 						return false;
 					}
-					if (newNickname.length > 8) {
-						app.showToast("昵称不能超过8位", "error");
+					if (newNickname.length > 50) {
+						app.showToast("昵称不能超过50位", "error");
 						return false;
 					}
 					
 					plus.nativeUI.showWaiting("请稍微...");
+					console.log(newNickname);
 					mui.ajax(app.serverUrl + "/u/setNickname",{
 						data:{
 							userId:user.id,
-							nickname:newNickname
+							faceData:"",
+							nickName:newNickname
 						},
 						dataType:'json',//服务器返回json格式数据
 						type:'post',//HTTP请求类型

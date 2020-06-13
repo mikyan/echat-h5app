@@ -44,7 +44,6 @@
 					var yourFriendUsername = txt_your_friend_username.value;
 					
 					plus.nativeUI.showWaiting("请稍后...");
-					app.showToast("??????????");
 					mui.ajax(app.serverUrl + "/u/search?myUserId=" + user.id +
 									"&friendUsername=" + yourFriendUsername, {
 						data:{},
@@ -55,7 +54,7 @@
 						success:function(data){
 							//服务器返回响应
 							plus.nativeUI.closeWaiting();
-							app.showToast(data.msg, "??????????");
+							
 							if (data.status == 200) {
 								
 								mui.openWindow({

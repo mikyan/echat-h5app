@@ -25,13 +25,13 @@
 
 		<header class="mui-bar mui-bar-nav title" style="position: fixed;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left title-color"></a>
-			<h1 class="mui-title title-color"><b id="chatting-nickname">慕 信</b></h1>
+			<h1 class="mui-title title-color"><b id="chatting-nickName">易 聊</b></h1>
 		</header>
 
 		<div id="msg-outter" class="mui-content">
 			<div id='msg'>
 				
-				<div class="friend_lists">
+				<!--<div class="friend_lists">
 					<div class="header_img">
 						<img src="image/face-default-cat.png" width="40px" height="40px" />
 					</div>
@@ -39,36 +39,15 @@
 						<p class="msg-left-white">晚上过来吃饭？</p>
 					</div>
 				</div>
-				
-				<div class="friend_lists">
-					<div class="header_img">
-						<img src="image/face-default-cat.png" width="40px" height="40px" />
-					</div>
-					<div class="msg-image-right">
-						<img src="image/face-default-cat.png" width="80px" height="80px" />
-					</div>
-				</div>
-
 
 				<div class="me_lists">
 					<div class="header_img">
 						<img src="image/face-default-cat.png" width="40px" height="40px" />
 					</div>
-					
 					<div class="msg-wrapper left">
 						<p class="msg-right-green">好的，没问题！时间地点？</p>
 					</div>
-				</div>
-				
-				<div class="me_lists">
-					<div class="header_img">
-						<img src="image/face-default-cat.png" width="40px" height="40px" />
-					</div>
-					
-					<div class="msg-image-left">
-						<img src="image/face-default-cat.png" width="80px" height="80px" />
-					</div>
-				</div>
+				</div>-->
 
 			</div>
 		</div>
@@ -78,17 +57,11 @@
 				<textarea id='msg-text' type="text" class='input-text'></textarea>
 			</div>
 			<label for="" class="footer-right">
-				<button type="button" class="mui-btn mui-btn-gray" id="picture">图片</button>
 				<button type="button" class="mui-btn mui-btn-gray" id="send">发送</button>
 			</label>
 		</footer>
 		
 		<script src="js/mui.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-		<script src="https://fengyuanchen.github.io/js/common.js"></script>
-		<script src="js/cropper.js"></script>
-		<script src="../../js/app.js"></script>
 		<script type="application/javascript" src="js/app.js"></script>
 		<script type="text/javascript">
 			// 创建命名空间，只需要把自己的代码，写进入，那么外部就无法访问
@@ -98,81 +71,7 @@
 				var friendUserId;
 				var friendNickname;
 				var friendFaceImage;
-				//从相册中选择图片
-				var $image = $('#image');
 				mui.plusReady(function(){
-					
-					var picture = document.getElementById("picture");
-					
-					//添加图片,页面跳转
-					picture.addEventListener("tap",function(){
-						var user = app.getUserGlobalInfo();
-						//var faceImage = user.faceImageBig;
-						// 获取屏幕宽度，设置图片
-						$image.attr('src', app.imgServerUrl);
-						
-						/** ======================== 从相册选择图片 ======================== **/
-							// 从相册中选择图片
-							console.log("从相册中选择图片:");
-						    plus.gallery.pick( function(path){
-						    	
-						    	$image.attr('src', path);
-						    	
-						    	faceCutter();
-						    }, function ( e ) {
-						    	mui.openWindow("index.html", "index.html");
-						    }, {filter:"image"} );
-						
-						/** ======================== 图片裁剪 ======================== **/
-						
-						$("#cutter").on('tap', function() {
-							
-							plus.nativeUI.showWaiting( "上传中..." );
-							
-							var cropper = $image.data('cropper');
-							var result = $image.cropper("getCroppedCanvas");
-							if(result) {
-								var base64Url = result.toDataURL();
-								
-								// 上传头像
-								var user = app.getUserGlobalInfo();
-								// 与后端联调
-								mui.ajax(app.serverUrl + "/u/uploadFaceBase64",{
-									data:{
-										userId:user.id,
-										faceData:base64Url
-									},
-									dataType:'json',//服务器返回json格式数据
-									type:'post',//HTTP请求类型
-									timeout:1000,//超时时间设置为10秒；
-									headers:{'Content-Type':'application/json'},	              
-									success:function(data){
-										
-										// 关闭等待框
-										plus.nativeUI.closeWaiting();
-										
-										if (data.status == 200) {
-											var userInfo = data.data;
-											app.setUserGlobalInfo(userInfo);
-											
-											// 触发另外一个webview的自定义事件，可以使用 mui.fire()
-											var mikyan_meWebview = plus.webview.getWebviewById("mikyan-me.html");
-											mui.fire(mikyan_meWebview, "refresh");
-											
-											// 触发另外一个webview的自定义事件，可以使用 mui.fire()
-											var myfaceWebview = plus.webview.getWebviewById("myface.html");
-											mui.fire(myfaceWebview, "refresh");
-											
-											// 页面跳转
-											mui.openWindow("index.html", "index.html");
-										} else {
-											app.showToast(data.msg, "error");
-										}
-									}
-								});
-							}
-						});
-					});
 					
 					// 获取我自己的用户信息					
 					var me = app.getUserGlobalInfo();
@@ -190,7 +89,7 @@
 					friendFaceImage = chattingWebview.friendFaceImage;
 					
 					// 标题改为朋友的昵称
-					document.getElementById("chatting-nickname").innerHTML = friendNickname;
+					document.getElementById("chatting-nickName").innerHTML = friendNickname;
 					
 					
 					// 渲染初始化的聊天记录HTML
@@ -203,13 +102,6 @@
 					// 获取dom控件
 					var msg_text = document.getElementById("msg-text");
 					var send = document.getElementById("send");
-					var picture = document.getElementById("picture");
-					var ppp = document.getElementById("ppp");
-					
-					//添加图片,页面跳转
-					ppp.addEventListener("tap",function(){
-						mui.openWindow("myface.html", "myface.html");
-					});
 					
 					// 监听用户输入，使得send按钮变色
 					msg_text.addEventListener("input", function(){
@@ -246,7 +138,7 @@
 						}
 						
 						// 发送消息, 渲染消息的html到msg div之下
-						sendMsg(app.imgServerUrl + me.faceImage, msg_text_val);
+						sendMsg(app.imgServerUrl + me.faceimage, msg_text_val);
 						// 情况消息文本框中的内容
 						msg_text.value = "";
 						// 发送消息完毕之后，把发送按钮的颜色改为灰白色
@@ -269,23 +161,6 @@
 					});
 				});
 				
-				//裁剪图片
-				function faceCutter() {
-								
-								plus.nativeUI.showWaiting( "请稍等..." );
-								
-				//				var $image = $('#image');
-								var options = {
-									aspectRatio: 1 / 1,
-									crop: function(e) {}
-								};
-							
-								// Cropper
-								$image.cropper(options);
-								
-								plus.nativeUI.closeWaiting();
-							}
-				
 				// 接受消息
 				function receiveMsg(msg) {
 					
@@ -302,6 +177,7 @@
 					msg_list.insertAdjacentHTML("beforeend", msgHtml);
 					
 					playReceiveMsgSound();
+		
 				}
 				
 				// 发送消息
@@ -348,7 +224,7 @@
 				
 				var me = app.getUserGlobalInfo();
 				var myId = me.id;
-				var myFaceImg = me.faceImage;
+				var myFaceImg = me.faceimage;
 
 				var chatHistoryList = app.getUserChatHistory(myId, friendUserId);
 				
@@ -356,6 +232,7 @@
 				
 				for (var i = 0 ; i < chatHistoryList.length ; i ++) {
 					var singleMsg = chatHistoryList[i];
+					//console.log(JSON.stringify(singleMsg));
 					if (singleMsg.flag == 1) {
 						togetherHTML += '<div class="me_lists">' +
 									'<div class="header_img">' +

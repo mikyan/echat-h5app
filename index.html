@@ -20,7 +20,7 @@
 <body>
 	
 	<header class="mui-bar mui-bar-nav title">
-	    <h1 class="mui-title title-color" id="muxin_title"><b>易聊</b></h1>
+	    <h1 class="mui-title title-color" id="muxin_title"><b>聊天</b></h1>
 	</header>
 	
 	<nav class="mui-bar mui-bar-tab">
@@ -28,13 +28,17 @@
 	        <span class="mui-icon iconfont icon-fire"></span>
 	        <span class="mui-tab-label">聊天</span>
 	    </a>
-	    <a class="mui-tab-item" tabindex="1">
+	    <a class="mui-tab-item" id="contact" tabindex="1">
 	        <span class="mui-icon iconfont icon-tongxunlu"></span>
-	        <span class="mui-tab-label">好友</span>
+	        <span class="mui-tab-label">通讯录</span>
 	    </a>
 	    <a class="mui-tab-item" tabindex="2">
+	        <span class="mui-icon iconfont icon-zhinanzhen1"></span>
+	        <span class="mui-tab-label">发现</span>
+	    </a>
+	    <a class="mui-tab-item" tabindex="3">
 	        <span class="mui-icon iconfont icon-wode-active"></span>
-	        <span class="mui-tab-label">我的</span>
+	        <span class="mui-tab-label">我</span>
 	    </a>
 	</nav>
 	
@@ -46,8 +50,12 @@
 				pageUrl: "mikyan-chatlist.html"
 			},
 			{
-				pageId: "mikyan-friend.html",
-				pageUrl: "mikyan-friend.html"
+				pageId: "mikyan-contact.html",
+				pageUrl: "mikyan-contact.html"
+			},
+			{
+				pageId: "mikyan-discover.html",
+				pageUrl: "mikyan-discover.html"
 			},
 			{
 				pageId: "mikyan-me.html",
@@ -73,7 +81,7 @@
 			// 获取当前的webview对象
 			var indexWebview = plus.webview.currentWebview()
 			
-			// 向当前的主页webview追加子页的3张webview对象
+			// 向当前的主页webview追加子页的4张webview对象
 			for (var i = 0 ; i < muxinArray.length ; i ++) {
 				var muxinPage = plus.webview.create(muxinArray[i].pageUrl, 
 													muxinArray[i].pageId,
@@ -92,7 +100,6 @@
 				
 				// 显示点击的tab选项所对应的页面
 				plus.webview.show(muxinArray[tabindex].pageId, "fade-in", 200);
-				
 				// 隐藏其他的不需要的页面
 				for (var i = 0 ; i < muxinArray.length ; i ++) {
 					if (i != tabindex) {
@@ -106,7 +113,6 @@
 		});
 		
 		// 监听网络状态更改
-		
 		function netChangeSwitch(){
 			document.addEventListener("netchange", function(){
 				// 网络状态获取和判断
@@ -127,10 +133,12 @@
 		function initData() {
 			var mikyan_chatlist = plus.webview.getWebviewById("mikyan-chatlist.html");
 			mui.fire(mikyan_chatlist, "refresh");
-			var mikyan_friend = plus.webview.getWebviewById("mikyan-friend.html");
-			mui.fire(mikyan_friend, "refresh");
+			
 			var mikyan_me = plus.webview.getWebviewById("mikyan-me.html");
 			mui.fire(mikyan_me, "refresh");
+			
+			// var mikyan_contact = plus.webview.getWebviewById("mikyan-contact.html");
+			// mui.fire(mikyan_contact, "refresh");
 		}
 		
 	</script>

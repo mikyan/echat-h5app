@@ -35,9 +35,9 @@ window.app = {
 	 */
 	showToast: function(msg, type) {
 		plus.nativeUI.toast(msg, 
-			{icon: "image/" + type + ".png", verticalAlign: "center"})
+			{verticalAlign: "center"})
 	},
-	
+	//icon: "image/" + type + ".png", verticalAlign: "center",
 	/**
 	 * 保存用户的全局对象
 	 * @param {Object} user
@@ -60,6 +60,7 @@ window.app = {
 	 */
 	userLogout: function() {
 		plus.storage.removeItem("userInfo");
+		plus.storage.removeItem("contactList");
 	},
 	
 	/**
@@ -93,11 +94,16 @@ window.app = {
 		
 		// 判断contactListStr是否为空
 		if (this.isNotNull(contactListStr)) {
+//			console.log("不为空\n");
 			// 不为空，则把用户信息返回
 			var contactList = JSON.parse(contactListStr);
 			for (var i = 0 ; i < contactList.length ; i ++) {
 				var friend = contactList[i];
+//				console.log(JSON.stringify(friend));
+//				console.log(friendId);
+//				console.log(friend.friendUserId);
 				if (friend.friendUserId == friendId) {
+//					console.log("返回啦");
 					return friend;
 					break;
 				}

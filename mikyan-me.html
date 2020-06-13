@@ -54,23 +54,6 @@
 		                </div>
 		            </a>
 		        </li>
-				
-				<li id="li_add_friends" class="mui-table-view-cell mui-media">
-					<a>
-					<span class="mui-pull-right mui-icon mui-icon-arrowright"
-							style="color: lightgray;margin-left: 3px;"></span>
-				    <img class="mui-media-object mui-pull-right" 
-				    	src="image/addfriends.png" style="max-width: 20px;height: 20px;">
-					<div class="mui-media-body">
-						    添加好友
-					</div>
-					</a>
-				   <!-- <p class="mui-ellipsis" 
-				    	style="line-height: 24px;color: #000000;font-size: 16px;">
-				    	<span style="margin-left: 10px;">添加好友</span>
-				    </p> -->
-				</li>
-				
 		    </ul>
 		    
 		    <br />
@@ -94,11 +77,6 @@
 			mui.init()
 			
 			mui.plusReady(function(){
-				
-				var li_add_friends = document.getElementById("li_add_friends");
-				li_add_friends.addEventListener("tap", function(){
-					mui.openWindow("searchFriends.html","searchFriends.html");
-				});
 				
 				
 				// 获得当前的webview，刷新当前用户信息
@@ -144,10 +122,11 @@
 			
 			function refreshUserInfo() {
 				var user = app.getUserGlobalInfo();
+				console.log("获取全局用户")
 				console.log(JSON.stringify(user))
-				console.log("???")
+				
 				if (user != null) {
-					var faceImage = user.faceImage;
+					var faceimage = user.faceimage;
 					var nickName = user.nickName;
 					var username = user.username;
 					
@@ -157,9 +136,9 @@
 					span_nickname.innerHTML = nickName;
 					span_username.innerHTML = username;
 					
-					if (app.isNotNull(faceImage)) {
+					if (app.isNotNull(faceimage)) {
 						var img_my_face = document.getElementById("img_my_face");
-						img_my_face.src = app.imgServerUrl + faceImage;
+						img_my_face.src = app.imgServerUrl + faceimage;
 					}
 				}
 				

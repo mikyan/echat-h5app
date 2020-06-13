@@ -84,10 +84,10 @@
 					plus.nativeUI.showWaiting("下载中...");
 					
 					var user = app.getUserGlobalInfo();
-					var faceImage = user.faceImageBig;
+					var faceimage = user.faceimageBig;
 					
 					var dtast = plus.downloader.createDownload(
-						app.imgServerUrl + faceImage,
+						app.imgServerUrl + faceimage,
 						{},
 						function(downloadFile, status) {
 							
@@ -118,9 +118,9 @@
 				var img_my_face = document.getElementById("img_myface");
 
 				if(user != null) {
-					var faceImage = user.faceImageBig;
-					if(app.isNotNull(faceImage)) {
-						img_my_face.src = app.imgServerUrl + faceImage;
+					var faceimage = user.faceimageBig;
+					if(app.isNotNull(faceimage)) {
+						img_my_face.src = app.imgServerUrl + faceimage;
 					}
 				}
 			}

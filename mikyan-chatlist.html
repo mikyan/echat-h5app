@@ -42,7 +42,7 @@
 			</ul>
 			
 			<ul id="ul_chatSnapshot" class="mui-table-view">
-				<li class="mui-table-view-cell mui-media">
+				<!--<li class="mui-table-view-cell mui-media">
 					<div class="mui-slider-right mui-disabled">
 						<a class="mui-btn mui-btn-red">删除</a>
 					</div>
@@ -51,9 +51,8 @@
 			            	<span class="red-point">慕课网</span>
 			            <p class="mui-ellipsis">这里是聊天内容...</p>
 		            </div>
-			    </li>
-				
-			   <li class="mui-table-view-cell mui-media">
+			    </li>-->
+			   <!-- <li class="mui-table-view-cell mui-media">
 		            <div class="mui-media-body">
 			            <img class="mui-media-object mui-pull-left" src="image/face-default-cat.png"/>
 			            	甲
@@ -80,7 +79,7 @@
 			            	丁
 			            <p class="mui-ellipsis">这里是聊天内容...</p>
 		            </div>
-			    </li>
+			    </li>-->
 			</ul>
 		</div>
 		
@@ -230,6 +229,8 @@
 					var friendUserId = chatMsg.senderId;
 					var myId = chatMsg.receiverId;
 					
+//					console.log(JSON.stringify(chatMsg));
+//					console.log("接受到消息：" + e.data);
 					// 调用聊天webview的receiveMsg方法
 //					var chatWebview = plus.webview.getWebviewById("chatting-180718GA2ZM9N5S8");
 					var chatWebview = plus.webview.getWebviewById("chatting-" + friendUserId);
@@ -241,11 +242,13 @@
 						isRead = false;	// chatWebview 聊天页面没有打开，标记消息未读状态
 					}
 					
+					console.log(JSON.stringify(chatMsg));
 					// 接受到消息之后，对消息记录进行签收
 					var dataContentSign = new app.DataContent(app.SIGNED, null, chatMsg.msgId);
 					CHAT.chat(JSON.stringify(dataContentSign));
 					
 					// 保存聊天历史记录到本地缓存
+					console.log(JSON.stringify(msg));
 					app.saveUserChatHistory(myId, friendUserId, msg, 2);
 					app.saveUserChatSnapshot(myId, friendUserId, msg, isRead);
 					// 渲染快照列表进行展示
@@ -324,7 +327,7 @@
 			function loadingChatSnapshot() {
 				var user = app.getUserGlobalInfo();
 				var chatSnapshotList = app.getUserChatSnapshot(user.id);
-				
+//				console.log(JSON.stringify(chatSnapshotList));
 				var chatItemHtml = "";
 				var ul_chatSnapshot = document.getElementById("ul_chatSnapshot");
 				ul_chatSnapshot.innerHTML = "";
@@ -332,9 +335,10 @@
 					var chatItem = chatSnapshotList[i];
 					
 					var friendId = chatItem.friendId;
+//					console.log(friendId);
 					// 根据friendId从本地联系人列表的缓存中拿到相关信息
 					var friend = app.getFriendFromContactList(friendId);
-					
+//					console.log(JSON.stringify(friend));
 					// 判断消息的已读或未读状态
 					var isRead = chatItem.isRead;
 					var readHtmlBefore = '';
@@ -343,7 +347,8 @@
 						readHtmlBefore = '<span class="red-point">';
 						readHtmlAfter = '</span>';
 					}
-					
+//					console.log(JSON.stringify(friend));
+					if(friend!=null){
 					chatItemHtml =  '<li friendUserId="' + friendId + '" friendNickname="' + friend.friendNickname + '" friendFaceImage="' + friend.friendFaceImage + '" class="chat-with-friend mui-table-view-cell mui-media">' +
 										'<div class="mui-slider-right mui-disabled">' +
 											'<a id="link_delChatRecord" friendUserId="' + friendId + '" class="mui-btn mui-btn-red">删除</a>' +
@@ -354,6 +359,7 @@
 								            '<p class="mui-ellipsis">' + chatItem.msg + '</p>' +
 							            '</div>' +
 								    '</li>';
+					}
 					ul_chatSnapshot.insertAdjacentHTML('beforeend', chatItemHtml);
 				}
 				
@@ -433,7 +439,7 @@
 					timeout:10000,//超时时间设置为10秒；
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
-						
+						console.log("=================================================");
 						// 更新通讯录
 						var myFriendList = data.data;
 						app.setContactList(myFriendList);

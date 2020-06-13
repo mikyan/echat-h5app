@@ -1,4 +1,4 @@
-/*图片气泡*/
+﻿/*图片气泡*/
 .friend_lists {
 	margin: 0 50px 0px 10px;
 	position: relative;
@@ -25,16 +25,6 @@
 	right: 0px;
 }
 
-/* 聊天图片 */
-.msg-image-right{
-	padding-top: 5px;
-	padding-left: 60px;
-}
-.msg-image-left{
-	position: absolute;
-	top: 5px;
-	right: 60px;
-}
 
 /*背景气泡*/
 .msg-left-white {
@@ -143,20 +133,20 @@ footer {
 
 .footer-right {
 	position: absolute;
-	width: 130px;
+	width: 60px;
 	height: 50px;
 	right: 0px;
 	bottom: 0px;
 	text-align: center;
 	vertical-align: middle;
 	line-height: 100%;
-	padding: 8px 0px 0 0;
+	padding: 8px 15px 0 0;
 	display: inline-block;
 }
 
 .footer-center {
 	height: 100%;
-	padding: 5px 70px 5px 5px;
+	padding: 5px 0px;
 }
 
 .footer-center [class*=input] {
@@ -166,7 +156,7 @@ footer {
 }
 
 .footer-center .input-text {
-	background: #FFF;
+	background: #fff;
 	border: solid 1px #ddd;
 	padding: 10px !important;
 	font-size: 16px !important;
