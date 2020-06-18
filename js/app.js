@@ -3,17 +3,17 @@ window.app = {
 	/**
 	 * netty服务后端发布的url地址
 	 */
-	nettyServerUrl: 'ws://192.168.0.107:8088/ws',
+	nettyServerUrl: 'ws://192.168.0.108:8088/ws',
 	
 	/**
 	 * 后端服务发布的url地址
 	 */
-	serverUrl: 'http://192.168.0.107:8080/v1',
+	serverUrl: 'http://192.168.0.108:8080/v1',
 	
 	/**
 	 * 图片服务器的url地址
 	 */
-	imgServerUrl: 'http://192.168.0.107:22333/mikyan/',
+	imgServerUrl: 'http://192.168.0.108:22333/mikyan/',
 	
 	/**
 	 * 判断字符串是否为空
@@ -121,7 +121,7 @@ window.app = {
 	 * @param {Object} msg
 	 * @param {Object} flag	判断本条消息是我发送的，还是朋友发送的，1:我  2:朋友
 	 */
-	saveUserChatHistory: function(myId, friendId, msg, flag) {
+	saveUserChatHistory: function(myId, friendId, msg, flag, type) {
 		var me = this;
 		var chatKey = "chat-" + myId + "-" + friendId;
 		
@@ -137,7 +137,7 @@ window.app = {
 		}
 		
 		// 构建聊天记录对象
-		var singleMsg = new me.ChatHistory(myId, friendId, msg, flag);
+		var singleMsg = new me.ChatHistory(myId, friendId, msg, flag, type);
 		
 		// 向list中追加msg对象
 		chatHistoryList.push(singleMsg);
@@ -297,11 +297,13 @@ window.app = {
 	/**
 	 * 和后端的枚举对应
 	 */
-	CONNECT: 1, 	// 第一次(或重连)初始化连接
-	CHAT: 2, 		// 聊天消息
-	SIGNED: 3, 		// 消息签收
-	KEEPALIVE: 4, 	// 客户端保持心跳
-	PULL_FRIEND:5,	// 重新拉取好友
+	CONNECT: 1, 		// 第一次(或重连)初始化连接
+	CHAT: 2, 			// 聊天消息
+	SIGNED: 3, 			// 消息签收
+	KEEPALIVE: 4, 		// 客户端保持心跳
+	PULL_FRIEND:5,		// 重新拉取好友
+	Friend_Request:6, 	//发送好友请求
+	CHAT_IMAGE: 7,  	//消息是图片
 	
 	/**
 	 * 和后端的 ChatMsg 聊天模型对象保持一致
@@ -310,11 +312,12 @@ window.app = {
 	 * @param {Object} msg
 	 * @param {Object} msgId
 	 */
-	ChatMsg: function(senderId, receiverId, msg, msgId){
+	ChatMsg: function(senderId, receiverId, msg, msgId,type){
 		this.senderId = senderId;
 		this.receiverId = receiverId;
 		this.msg = msg;
 		this.msgId = msgId;
+		this.type = type;
 	},
 	
 	/**
@@ -336,12 +339,14 @@ window.app = {
 	 * @param {Object} msg
 	 * @param {Object} flag
 	 */
-	ChatHistory: function(myId, friendId, msg, flag){
+	ChatHistory: function(myId, friendId, msg, flag, type){
 		this.myId = myId;
 		this.friendId = friendId;
 		this.msg = msg;
 		this.flag = flag;
+		this.type = type;
 	},
+	
 	
 	/**
 	 * 快照对象

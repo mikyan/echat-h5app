@@ -72,6 +72,7 @@
 			var friendUserId;
 			var friendNickname;
 			var friendFaceImage;
+			var dataURL;
 			mui.plusReady(function() {
 
 				// 获取我自己的用户信息					
@@ -115,15 +116,27 @@
 				});
 
 				send_image.addEventListener("tap", function() {
-					var dataURL = "";
+					var connectionStatus = plus.networkinfo.getCurrentType();
+					if (connectionStatus == 0 || connectionStatus == 1) {
+						app.showToast("请打开网络连接...", "error");
+						return;
+					}
+
 					plus.gallery.pick(function(e) {
-							dataURL = sendPhoto(e);
+						sendPhoto(e);
+
+
+
 					}, function(e) {
 						console.log("取消选择图片");
 					}, {
 						filter: "image", //系统相册选择器中可选择的文件类型 "image" , "video" , "none"
 						system: false, //是否使用系统文件选择界面，iOS下无效
 					});
+					//setTimeout(1000);
+
+
+
 				});
 
 
@@ -248,23 +261,49 @@
 					var singleMsg = chatHistoryList[i];
 					//console.log(JSON.stringify(singleMsg));
 					if (singleMsg.flag == 1) {
-						togetherHTML += '<div class="me_lists">' +
-							'<div class="header_img">' +
-							'<img src="' + app.imgServerUrl + myFaceImg + '" width="40px" height="40px" />' +
-							'</div>' +
-							'<div class="msg-wrapper left">' +
-							'<p class="msg-right-green">' + singleMsg.msg + '</p>' +
-							'</div>' +
-							'</div>';
+						if (singleMsg.type == app.CHAT_IMAGE) {
+							togetherHTML += '<div class="me_lists">' +
+								'<div class="header_img">' +
+								'<img src="' + app.imgServerUrl + myFaceImg + '" width="40px" height="40px" />' +
+								'</div>' +
+								'<div class="msg-wrapper left">' +
+								'<p class="msg-right-green">' +
+								'<img class="' + '" src="' + singleMsg.msg + '"/>' +
+								'</p>' +
+								'</div>' +
+								'</div>';
+						} else {
+							togetherHTML += '<div class="me_lists">' +
+								'<div class="header_img">' +
+								'<img src="' + app.imgServerUrl + myFaceImg + '" width="40px" height="40px" />' +
+								'</div>' +
+								'<div class="msg-wrapper left">' +
+								'<p class="msg-right-green">' + singleMsg.msg + '</p>' +
+								'</div>' +
+								'</div>';
+						}
 					} else {
-						togetherHTML += '<div class="friend_lists">' +
-							'<div class="header_img">' +
-							'<img src="' + app.imgServerUrl + friendFaceImage + '" width="40px" height="40px" />' +
-							'</div>' +
-							'<div class="msg-wrapper right">' +
-							'<p class="msg-left-white">' + singleMsg.msg + '</p>' +
-							'</div>' +
-							'</div>';
+						if (singleMsg.type == app.CHAT_IMAGE) {
+							togetherHTML += '<div class="friend_lists">' +
+								'<div class="header_img">' +
+								'<img src="' + app.imgServerUrl + friendFaceImage + '" width="40px" height="40px" />' +
+								'</div>' +
+								'<div class="msg-wrapper right">' +
+								'<p class="msg-left-white">' +
+								'<img class="' + '" src="' + singleMsg.msg + '"/>' +
+								'</p>' +
+								'</div>' +
+								'</div>';
+						} else {
+							togetherHTML += '<div class="friend_lists">' +
+								'<div class="header_img">' +
+								'<img src="' + app.imgServerUrl + friendFaceImage + '" width="40px" height="40px" />' +
+								'</div>' +
+								'<div class="msg-wrapper right">' +
+								'<p class="msg-left-white">' + singleMsg.msg + '</p>' +
+								'</div>' +
+								'</div>';
+						}
 					}
 				}
 				msg_list.innerHTML = togetherHTML;
@@ -312,7 +351,7 @@
 					ctx.clearRect(0, 0, targetWidth, targetHeight);
 					ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
-					var dataURL = canvas.toDataURL("image/jpeg", 0.92); //供img标签使用的src路径
+					dataURL = canvas.toDataURL("image/jpeg", 0.92); //供img标签使用的src路径
 					var me = app.getUserGlobalInfo();
 					var msgHtml = '<div class="me_lists">' +
 						'<div class="header_img">' +
@@ -327,9 +366,31 @@
 					var msg_list = document.getElementById("msg");
 					msg_list.insertAdjacentHTML("beforeend", msgHtml);
 					//将最后拿到的图片类名和src放入页面中
-					return dataURL;
+
+					console.log("=====================================");
+					//console.log(dataURL);
+
+					var chatMsg = new app.ChatMsg(me.id, friendUserId, dataURL, null);
+					// 构建DataContent
+					var dataContent = new app.DataContent(app.CHAT_IMAGE, chatMsg, null);
+
+					// 调用websocket 发送消息到netty后端
+					var wsWebview = plus.webview.getWebviewById("mikyan-chatlist.html");
+					wsWebview.evalJS("CHAT.chat('" + JSON.stringify(dataContent) + "')");
+					//						wsWebview.evalJS("CHAT.chat('" + msg_text_val + "')");
+
+					// 保存聊天历史记录到本地缓存
+					app.saveUserChatHistory(me.id, friendUserId, dataURL, 1, app.CHAT_IMAGE);
+					app.saveUserChatSnapshot(me.id, friendUserId, dataURL, true);
+					//						receiveMsg("模拟接受消息~~~~~~");
+
+
 				}
+
+
 			}
+
+
 
 			function receiveImg(imageurl) {
 				var msgHtml = '<div class="friend_lists">' +
@@ -338,7 +399,7 @@
 					'</div>' +
 					'<div class="msg-wrapper right">' +
 					'<p class="msg-left-white">' +
-					'<img class="' + '" src="' + dataURL + '"/>' +
+					'<img class="' + '" src="' + imageurl + '"/>' +
 					'</p>' +
 					'</div>' +
 					'</div>';
